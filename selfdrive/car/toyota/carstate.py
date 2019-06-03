@@ -102,6 +102,8 @@ class CarState(object):
                          C=np.matrix([1.0, 0.0]),
                          K=np.matrix([[0.12287673], [0.29666309]]))
     self.v_ego = 0.0
+  
+    self.lk_mode = True
 
   def update(self, cp, cp_cam):
     # copy can_valid
@@ -170,3 +172,4 @@ class CarState(object):
       self.generic_toggle = cp.vl["AUTOPARK_STATUS"]['STATE'] != 0
     else:
       self.generic_toggle = bool(cp.vl["LIGHT_STALK"]['AUTO_HIGH_BEAM'])
+    self.lk_mode = not cp.vl["LKAS_HUD"]['SET_ME_X01']
