@@ -153,7 +153,7 @@ class CarController(object):
       self.last_fault_frame = frame
 
     # Cut steering for 2s after fault
-    if not enabled or (frame - self.last_fault_frame < 200) or not CS.lk_mode:
+    if not enabled or (frame - self.last_fault_frame < 200):
       apply_steer = 0
       apply_steer_req = 0
     else:
@@ -205,15 +205,19 @@ class CarController(object):
     # on consecutive messages
     if ECU.CAM in self.fake_ecus:
       if self.angle_control:
-        can_sends.append(create_steer_command(self.packer, 0., 0, frame))
+          if CS.lk_mode:
+            can_sends.append(create_steer_command(self.packer, 0., 0, frame))
       else:
-        can_sends.append(create_steer_command(self.packer, apply_steer, apply_steer_req, frame))
+          if CS.lk_mode:
+            can_sends.append(create_steer_command(self.packer, apply_steer, apply_steer_req, frame))
 
     if self.angle_control:
-      can_sends.append(create_ipas_steer_command(self.packer, apply_angle, self.steer_angle_enabled,
+        if CS.lk_mode:
+            can_sends.append(create_ipas_steer_command(self.packer, apply_angle, self.steer_angle_enabled,
                                                  ECU.APGS in self.fake_ecus))
     elif ECU.APGS in self.fake_ecus:
-      can_sends.append(create_ipas_steer_command(self.packer, 0, 0, True))
+        if CS.lk_mode:
+            can_sends.append(create_ipas_steer_command(self.packer, 0, 0, True))
 
     # accel cmd comes from DSU, but we can spam can to cancel the system even if we are using lat only control
     if (frame % 3 == 0 and ECU.DSU in self.fake_ecus) or (pcm_cancel_cmd and ECU.CAM in self.fake_ecus):
