@@ -163,6 +163,8 @@ BO_ 1041 ACC_HUD: 8 DSU
 BO_ 1042 LKAS_HUD: 8 XXX
  SG_ BARRIERS : 1|2@0+ (1,0) [0|3] "" XXX
  SG_ RIGHT_LINE : 3|2@0+ (1,0) [0|3] "" XXX
+ SG_ LEFT_LINE : 5|2@0+ (1,0) [0|3] "" XXX
+ SG_ SET_ME_X01 : 7|2@0+ (1,0) [0|3] "" XXX
  SG_ SET_ME_X01_2 : 11|2@0+ (1,0) [0|3] "" XXX
  SG_ LDA_ALERT : 9|2@0+ (1,0) [0|3] "" XXX
  SG_ TWO_BEEPS : 12|1@0+ (1,0) [0|1] "" XXX
@@ -173,8 +175,6 @@ BO_ 1042 LKAS_HUD: 8 XXX
  SG_ SET_ME_X2C : 47|8@0+ (1,0) [0|1] "" XXX
  SG_ SET_ME_X38 : 55|8@0+ (1,0) [0|1] "" XXX
  SG_ SET_ME_X02 : 63|8@0+ (1,0) [0|1] "" XXX
- SG_ LEFT_LINE : 5|2@0+ (1,0) [0|3] "" XXX
- SG_ SET_ME_X01 : 7|2@0+ (1,0) [0|3] "" XXX
 
 BO_ 1553 UI_SEETING: 8 XXX
  SG_ UNITS : 26|2@0+ (1,0) [0|3] "" XXX
@@ -253,7 +253,6 @@ BO_ 608 STEER_TORQUE_SENSOR: 8 XXX
  SG_ STEER_TORQUE_DRIVER : 15|16@0- (1,0) [-32768|32767] "" XXX
  SG_ STEER_OVERRIDE : 0|1@0+ (1,0) [0|1] "" XXX
  SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
- SG_ STEER_ANGLE : 31|16@0- (0.056,0) [-500|500] "" XXX
 
 BO_ 610 EPS_STATUS: 8 EPS
  SG_ IPAS_STATE : 3|4@0+ (1,0) [0|15] "" XXX
@@ -262,7 +261,7 @@ BO_ 610 EPS_STATUS: 8 EPS
  SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
 
 BO_ 768 LKAS_BUTTON: 8 XXX
- SG_ DANK_BUTTON : 2|1@1+ (1,0) [0|1] "" XXX
+ SG_ DANK_BUTTON : 2|1@0+ (1,0) [0|1] "" XXX
 
 
 
@@ -315,8 +314,8 @@ VAL_ 614 DIRECTION_CMD 3 "right" 2 "center" 1 "left" ;
 VAL_ 921 CRUISE_CONTROL_STATE 2 "disabled" 11 "hold" 10 "hold_waiting_user_cmd" 6 "enabled" 5 "faulted" ;
 VAL_ 1042 BARRIERS 3 "both" 2 "right" 1 "left" 0 "none" ;
 VAL_ 1042 RIGHT_LINE 3 "orange" 2 "faded" 1 "solid" 0 "none" ;
-VAL_ 1042 LDA_ALERT 3 "hold with continuous beep" 2 "LDA unavailable" 1 "hold" 0 "none" ;
 VAL_ 1042 LEFT_LINE 3 "orange" 2 "faded" 1 "solid" 0 "none" ;
+VAL_ 1042 LDA_ALERT 3 "hold with continuous beep" 2 "LDA unavailable" 1 "hold" 0 "none" ;
 VAL_ 1553 UNITS 1 "km" 2 "miles" ;
 VAL_ 1556 TURN_SIGNALS 3 "none" 2 "right" 1 "left" ;
 VAL_ 1161 TSGN1 1 "speed sign" 0 "none" ;
@@ -335,6 +334,6 @@ SG_ STATE : 7|4@0+ (1,0) [0|15] "" XX";
 CM_ "Imported file _toyota_2017.dbc starts here"
 VERSION "";
 CM_ "CHFFR_METRIC 37 STEER_ANGLE STEER_ANGLE 0.36 180";
-CM_ "toyota_nodsu_hybrid_pt.dbc starts here"
+CM_ "toyota_chr_hybrid_2018_pt.dbc starts here"
 BO_ 295 GEAR_PACKET: 8 XXX
 SG_ CAR_MOVEMENT : 39|8@0- (1,0) [0|255] "" XX";
