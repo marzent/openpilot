@@ -68,7 +68,7 @@ def create_accel_command(packer, accel, pcm_cancel, standstill_req, lead):
   # TODO: find the exact canceling bit that does not create a chime
   values = {
     "ACCEL_CMD": accel,
-    "SET_ME_X01": 1,
+    #"SET_ME_X01": 1,
     "DISTANCE": 0,
     "MINI_CAR": lead,
     "SET_ME_X3": 3,
@@ -97,7 +97,7 @@ def create_ui_command(packer, steer, sound1, sound2, left_line, right_line):
     "SET_ME_X2C": 0x2c,
     "SET_ME_X38": 0x38,
     "SET_ME_X02": 0x02,
-    "SET_ME_X01": 1,
+    #"SET_ME_X01": 1,
     "SET_ME_X01_2": 1,
     "REPEATED_BEEPS": sound1,
     "TWO_BEEPS": sound2,
