@@ -227,6 +227,7 @@ if __name__ == "__main__":
     ("STEER_TORQUE_EPS", 608, 0),
     ("TURN_SIGNALS", 1556, 3),   # 3 is no blinkers
     ("LKA_STATE", 610, 0),
+    ("DANK_BUTTON", 768, 0),
   ]
   checks = [
     (548, 40),

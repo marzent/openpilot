@@ -172,4 +172,4 @@ class CarState(object):
       self.generic_toggle = cp.vl["AUTOPARK_STATUS"]['STATE'] != 0
     else:
       self.generic_toggle = bool(cp.vl["LIGHT_STALK"]['AUTO_HIGH_BEAM'])
-    self.lk_mode = cp.vl["LKAS_BUTTON"]['DANK_BUTTON']
+    self.lk_mode = not cp.vl["LKAS_BUTTON"]['DANK_BUTTON']
