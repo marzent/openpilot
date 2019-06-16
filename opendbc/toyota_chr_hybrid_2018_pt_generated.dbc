@@ -324,6 +324,9 @@ BO_ 610 EPS_STATUS: 8 EPS
  SG_ LKA_STATE : 31|7@0+ (1,0) [0|127] "" XXX
  SG_ TYPE : 24|1@0+ (1,0) [0|1] "" XXX
  SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
+ 
+BO_ 768 LKAS_BUTTON: 8 XXX
+ SG_ DANK_BUTTON : 2|1@0+ (1,0) [0|1] "" XXX
 
 CM_ SG_ 548 BRAKE_PRESSURE "seems prop to pedal force";
 CM_ SG_ 548 BRAKE_POSITION "seems proportional to pedal displacement, unclear the max value of 0x1c8";
