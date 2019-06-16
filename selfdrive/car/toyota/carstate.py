@@ -47,7 +47,7 @@ def get_can_parser(CP):
     ("IPAS_STATE", "EPS_STATUS", 1),
     ("BRAKE_LIGHTS_ACC", "ESP_CONTROL", 0),
     ("AUTO_HIGH_BEAM", "LIGHT_STALK", 0),
-    ("SET_ME_X01", "LKAS_HUD", 0),
+    ("DANK_BUTTON", "LKAS_BUTTON", 0),
   ]
 
   checks = [
@@ -172,4 +172,4 @@ class CarState(object):
       self.generic_toggle = cp.vl["AUTOPARK_STATUS"]['STATE'] != 0
     else:
       self.generic_toggle = bool(cp.vl["LIGHT_STALK"]['AUTO_HIGH_BEAM'])
-    self.lk_mode = cp.vl["LKAS_HUD"]['SET_ME_X01']
+    self.lk_mode = cp.vl["LKAS_BUTTON"]['DANK_BUTTON']
