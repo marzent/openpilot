@@ -7,22 +7,6 @@ venv/
 model2.png
 a.out
 
-*.DSYM
-*.d
-*.pyc
-*.pyo
-.*.swp
-.*.swo
-.*.un~
-*.o
-*.so
-*.a
-*.clb
-*.class
-*.pyxbldc
-*.vcd
-config.json
-clcache
 
 board/obj/
 selfdrive/boardd/boardd
