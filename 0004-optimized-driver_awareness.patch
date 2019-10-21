@@ -1,0 +1,94 @@
+From 7377d1efd6d13e31eea81a6fa578a652d2d6e666 Mon Sep 17 00:00:00 2001
+From: Marc-Aurel <marc_aurel@me.com>
+Date: Mon, 21 Oct 2019 14:32:24 +0200
+Subject: [PATCH 4/9] optimized driver_awareness
+
+---
+ selfdrive/controls/lib/driver_monitor.py | 44 +++---------------------
+ 1 file changed, 4 insertions(+), 40 deletions(-)
+
+diff --git a/selfdrive/controls/lib/driver_monitor.py b/selfdrive/controls/lib/driver_monitor.py
+index 90bdacd..94cc5f3 100644
+--- a/selfdrive/controls/lib/driver_monitor.py
++++ b/selfdrive/controls/lib/driver_monitor.py
+@@ -7,7 +7,7 @@ from selfdrive.kegman_conf import kegman_conf
+ kegman = kegman_conf()
+ 
+ 
+-_AWARENESS_TIME = min(int(kegman.conf['wheelTouchSeconds']), 600)    # x minutes limit without user touching steering wheels make the car enter a terminal status
++_AWARENESS_TIME = 999999    # x minutes limit without user touching steering wheels make the car enter a terminal status
+ _AWARENESS_PRE_TIME_TILL_TERMINAL = 25.  # a first alert is issued 25s before expiration
+ _AWARENESS_PROMPT_TIME_TILL_TERMINAL = 15.  # a second alert is issued 15s before start decelerating the car
+ _DISTRACTED_TIME = 11.
+@@ -129,26 +129,6 @@ class DriverStatus():
+       self.step_change = DT_CTRL / _AWARENESS_TIME
+       self.active_monitoring_mode = False
+ 
+-  def _is_driver_distracted(self, pose, blink):
+-    if not self.pose_calibrated:
+-      pitch_error = pose.pitch - _PITCH_NATURAL_OFFSET
+-      yaw_error = pose.yaw - _YAW_NATURAL_OFFSET
+-      # add positive pitch allowance
+-      if pitch_error > 0.:
+-        pitch_error = max(pitch_error - _PITCH_POS_ALLOWANCE, 0.)
+-    else:
+-      pitch_error = pose.pitch - self.pose.pitch_offseter.filtered_stat.mean()
+-      yaw_error = pose.yaw - self.pose.yaw_offseter.filtered_stat.mean()
+-
+-    pitch_error *= _PITCH_WEIGHT
+-    pose_metric = np.sqrt(yaw_error**2 + pitch_error**2)
+-
+-    if pose_metric > _METRIC_THRESHOLD:
+-      return DistractedType.BAD_POSE
+-    elif (blink.left_blink + blink.right_blink)*0.5 > _BLINK_THRESHOLD:
+-      return DistractedType.BAD_BLINK
+-    else:
+-      return DistractedType.NOT_DISTRACTED
+ 
+   def get_pose(self, driver_monitoring, cal_rpy, car_speed, op_engaged):
+     # 10 Hz
+@@ -158,9 +138,9 @@ class DriverStatus():
+     self.pose.roll, self.pose.pitch, self.pose.yaw = head_orientation_from_descriptor(driver_monitoring.faceOrientation, driver_monitoring.facePosition, cal_rpy)
+     self.blink.left_blink = driver_monitoring.leftBlinkProb * (driver_monitoring.leftEyeProb>_EYE_THRESHOLD)
+     self.blink.right_blink = driver_monitoring.rightBlinkProb * (driver_monitoring.rightEyeProb>_EYE_THRESHOLD)
+-    self.face_detected = driver_monitoring.faceProb > _FACE_THRESHOLD and not self.is_rhd_region
++    self.face_detected = True
+ 
+-    self.driver_distracted = self._is_driver_distracted(self.pose, self.blink)>0
++    self.driver_distracted = False
+     # first order filters
+     self.driver_distraction_filter.update(self.driver_distracted)
+ 
+@@ -183,7 +163,7 @@ class DriverStatus():
+       self.awareness_passive = 1.
+       return events
+ 
+-    driver_attentive = self.driver_distraction_filter.x < 0.37
++    driver_attentive = True
+     awareness_prev = self.awareness
+ 
+     if (driver_attentive and self.face_detected and self.awareness > 0):
+@@ -200,20 +180,4 @@ class DriverStatus():
+        not (standstill and self.awareness - self.step_change <= self.threshold_prompt):
+       self.awareness = max(self.awareness - self.step_change, -0.1)
+ 
+-    alert = None
+-    if self.awareness <= 0.:
+-      # terminal red alert: disengagement required
+-      alert = 'driverDistracted' if self.active_monitoring_mode else 'driverUnresponsive'
+-      if awareness_prev > 0.:
+-        self.terminal_alert_cnt += 1
+-    elif self.awareness <= self.threshold_prompt:
+-      # prompt orange alert
+-      alert = 'promptDriverDistracted' if self.active_monitoring_mode else 'promptDriverUnresponsive'
+-    elif self.awareness <= self.threshold_pre:
+-      # pre green alert
+-      alert = 'preDriverDistracted' if self.active_monitoring_mode else 'preDriverUnresponsive'
+-
+-    if alert is not None:
+-      events.append(create_event(alert, [ET.WARNING]))
+-
+     return events
+-- 
+2.23.0
+

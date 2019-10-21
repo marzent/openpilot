@@ -1,0 +1,49 @@
+From 42258ed95ee43df51df4f1f079208d5f73ccdda5 Mon Sep 17 00:00:00 2001
+From: Marc-Aurel <marc_aurel@me.com>
+Date: Mon, 21 Oct 2019 16:35:20 +0200
+Subject: [PATCH 9/9] updated values
+
+---
+ panda/board/safety/safety_toyota.h    | 6 +++---
+ selfdrive/car/toyota/carcontroller.py | 8 ++++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/panda/board/safety/safety_toyota.h b/panda/board/safety/safety_toyota.h
+index b60c8ba..5ab292f 100644
+--- a/panda/board/safety/safety_toyota.h
++++ b/panda/board/safety/safety_toyota.h
+@@ -3,9 +3,9 @@ const int TOYOTA_MAX_TORQUE = 3000;       // max torque cmd allowed ever
+ 
+ // rate based torque limit + stay within actually applied
+ // packet is sent at 100hz, so this limit is 1000/sec
+-const int TOYOTA_MAX_RATE_UP = 25;        // ramp up slow
+-const int TOYOTA_MAX_RATE_DOWN = 45;      // ramp down fast
+-const int TOYOTA_MAX_TORQUE_ERROR = 450;  // max torque cmd in excess of torque motor
++const int TOYOTA_MAX_RATE_UP = 60;        // ramp up slow
++const int TOYOTA_MAX_RATE_DOWN = 100;      // ramp down fast
++const int TOYOTA_MAX_TORQUE_ERROR = 500;  // max torque cmd in excess of torque motor
+ 
+ // real time torque limit to prevent controls spamming
+ // the real time limit is 1500/sec
+diff --git a/selfdrive/car/toyota/carcontroller.py b/selfdrive/car/toyota/carcontroller.py
+index 143557c..5574f17 100644
+--- a/selfdrive/car/toyota/carcontroller.py
++++ b/selfdrive/car/toyota/carcontroller.py
+@@ -19,10 +19,10 @@ ACCEL_SCALE = max(ACCEL_MAX, -ACCEL_MIN)
+ 
+ # Steer torque limits
+ class SteerLimitParams:
+-  STEER_MAX = 1500
+-  STEER_DELTA_UP = 10       # 1.5s time to peak torque
+-  STEER_DELTA_DOWN = 25     # always lower than 45 otherwise the Rav4 faults (Prius seems ok with 50)
+-  STEER_ERROR_MAX = 350     # max delta between torque cmd and torque motor
++  STEER_MAX = 3000
++  STEER_DELTA_UP = 60       # 1.5s time to peak torque
++  STEER_DELTA_DOWN = 100     # always lower than 45 otherwise the Rav4 faults (Prius seems ok with 50)
++  STEER_ERROR_MAX = 500     # max delta between torque cmd and torque motor
+ 
+ # Steer angle limits (tested at the Crows Landing track and considered ok)
+ ANGLE_MAX_BP = [0., 5.]
+-- 
+2.23.0
+

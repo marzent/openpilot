@@ -1,0 +1,39 @@
+From fc667bb904b0e6c3d3a6b9358348f4d7b23145dd Mon Sep 17 00:00:00 2001
+From: Marc-Aurel <marc_aurel@me.com>
+Date: Mon, 21 Oct 2019 15:18:53 +0200
+Subject: [PATCH 6/9] blinker cuts steering
+
+---
+ selfdrive/car/toyota/carcontroller.py | 2 +-
+ selfdrive/car/toyota/interface.py     | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/selfdrive/car/toyota/carcontroller.py b/selfdrive/car/toyota/carcontroller.py
+index a5ff1a4..143557c 100644
+--- a/selfdrive/car/toyota/carcontroller.py
++++ b/selfdrive/car/toyota/carcontroller.py
+@@ -144,7 +144,7 @@ class CarController():
+       self.last_fault_frame = frame
+ 
+     # Cut steering for 2s after fault
+-    if not enabled or (frame - self.last_fault_frame < 200):
++    if not enabled or (frame - self.last_fault_frame < 200) or CS.left_blinker_on or CS.right_blinker_on:
+       apply_steer = 0
+       apply_steer_req = 0
+     else:
+diff --git a/selfdrive/car/toyota/interface.py b/selfdrive/car/toyota/interface.py
+index 40ea087..f52ff66 100755
+--- a/selfdrive/car/toyota/interface.py
++++ b/selfdrive/car/toyota/interface.py
+@@ -390,6 +390,8 @@ class CarInterface(CarInterfaceBase):
+       events.append(create_event('wrongCarMode', [ET.NO_ENTRY, ET.USER_DISABLE]))
+     if ret.gearShifter == GearShifter.reverse and self.CP.enableDsu:
+       events.append(create_event('reverseGear', [ET.NO_ENTRY, ET.IMMEDIATE_DISABLE]))
++    if self.CS.left_blinker_on or self.CS.right_blinker_on:
++      events.append(create_event('manualSteeringRequiredBlinkersOn', [ET.WARNING]))
+     if self.CS.steer_error:
+       events.append(create_event('steerTempUnavailable', [ET.NO_ENTRY, ET.WARNING]))
+     if self.CS.low_speed_lockout and self.CP.enableDsu:
+-- 
+2.23.0
+
