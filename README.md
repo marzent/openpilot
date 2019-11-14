@@ -1,3 +1,20 @@
+This custom fork is based on comma's openpilot: https://github.com/commaai/openpilot, and contains fixed and tweaks for specifically the 2017-2019 Toyota C-HR Hybrid.
+It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
+
+The branch you are on is for testing new and work in progress stuff. Some features and changes may not work at all or incorrectly.
+
+Changes from stock:
+
+- <b> Fingerprint fix </b> - fixes the C-HR Hybrid misidentifying as a Camry and messing up its dbc addresses. Restores values.py to an older version without support for some Camry trims.
+
+- <b> Sensor data fix </b> - fixes the C-HR Hybrid from MY 2017-2019 being misidentified as having Toyota TSS-P 2.
+
+- <b> Cut steering while blinker is on </b> - Steering is temporarily disabled while blinker in on so you can more easily complete lane changes. Also shows a warning on screen while steering is cut.
+
+- <b> Driver monitoring removed </b> - Removes driver monitoring and the need to touch the wheel. Please stay attentive and ready to take over at any time.
+
+
+
 [![](https://i.imgur.com/UetIFyH.jpg)](#)
 
 Welcome to openpilot
