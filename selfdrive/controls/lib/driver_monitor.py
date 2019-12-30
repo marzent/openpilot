@@ -4,10 +4,10 @@ from selfdrive.controls.lib.drive_helpers import create_event, EventTypes as ET
 from common.filter_simple import FirstOrderFilter
 from common.stat_live import RunningStatFilter
 
-_AWARENESS_TIME = 100.  # 1.6 minutes limit without user touching steering wheels make the car enter a terminal status
+_AWARENESS_TIME = 99999.  # 1.6 minutes limit without user touching steering wheels make the car enter a terminal status
 _AWARENESS_PRE_TIME_TILL_TERMINAL = 25.  # a first alert is issued 25s before expiration
 _AWARENESS_PROMPT_TIME_TILL_TERMINAL = 15.  # a second alert is issued 15s before start decelerating the car
-_DISTRACTED_TIME = 11.
+_DISTRACTED_TIME = 99999.
 _DISTRACTED_PRE_TIME_TILL_TERMINAL = 8.
 _DISTRACTED_PROMPT_TIME_TILL_TERMINAL = 6.
 
@@ -135,25 +135,7 @@ class DriverStatus():
       self.active_monitoring_mode = False
 
   def _is_driver_distracted(self, pose, blink):
-    if not self.pose_calibrated:
-      pitch_error = pose.pitch - _PITCH_NATURAL_OFFSET
-      yaw_error = pose.yaw - _YAW_NATURAL_OFFSET
-      # add positive pitch allowance
-      if pitch_error > 0.:
-        pitch_error = max(pitch_error - _PITCH_POS_ALLOWANCE, 0.)
-    else:
-      pitch_error = pose.pitch - self.pose.pitch_offseter.filtered_stat.mean()
-      yaw_error = pose.yaw - self.pose.yaw_offseter.filtered_stat.mean()
-
-    pitch_error *= _PITCH_WEIGHT
-    pose_metric = np.sqrt(yaw_error**2 + pitch_error**2)
-
-    if pose_metric > _METRIC_THRESHOLD*pose.cfactor:
-      return DistractedType.BAD_POSE
-    elif (blink.left_blink + blink.right_blink)*0.5 > _BLINK_THRESHOLD*blink.cfactor:
-      return DistractedType.BAD_BLINK
-    else:
-      return DistractedType.NOT_DISTRACTED
+    return DistractedType.NOT_DISTRACTED
 
   def set_policy(self, model_data):
     ep = min(model_data.meta.engagedProb, 0.8) / 0.8
@@ -161,7 +143,7 @@ class DriverStatus():
     self.blink.cfactor = np.interp(ep, [0, 0.5, 1], [_BLINK_THRESHOLD_STRICT, _BLINK_THRESHOLD, _BLINK_THRESHOLD_SLACK])/_BLINK_THRESHOLD
 
   def get_pose(self, driver_monitoring, cal_rpy, car_speed, op_engaged):
-    # 10 Hz
+    # 10 H
     if len(driver_monitoring.faceOrientation) == 0 or len(driver_monitoring.facePosition) == 0:
       return
 
@@ -195,7 +177,7 @@ class DriverStatus():
       self.awareness_passive = 1.
       return events
 
-    driver_attentive = self.driver_distraction_filter.x < 0.37
+    driver_attentive = True
     awareness_prev = self.awareness
 
     if (driver_attentive and self.face_detected and self.awareness > 0):
@@ -226,7 +208,7 @@ class DriverStatus():
       # pre green alert
       alert = 'preDriverDistracted' if self.active_monitoring_mode else 'preDriverUnresponsive'
 
-    if alert is not None:
-      events.append(create_event(alert, [ET.WARNING]))
+    #if alert is not None:
+      #events.append(create_event(alert, [ET.WARNING]))
 
     return events
