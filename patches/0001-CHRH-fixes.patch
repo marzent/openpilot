@@ -1,0 +1,37 @@
+From 62cac07240d091faea65276fbfb7d7a46477ab92 Mon Sep 17 00:00:00 2001
+From: Marc-Aurel Zent <marc_aurel@me.com>
+Date: Mon, 6 Jan 2020 13:52:49 +0100
+Subject: [PATCH] CHRH fixes
+
+---
+ selfdrive/car/fingerprints.py  | 1 +
+ selfdrive/car/toyota/values.py | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/selfdrive/car/fingerprints.py b/selfdrive/car/fingerprints.py
+index 0e29e6c..c81e264 100644
+--- a/selfdrive/car/fingerprints.py
++++ b/selfdrive/car/fingerprints.py
+@@ -45,6 +45,7 @@ def eliminate_incompatible_cars(msg, candidate_cars):
+   compatible_cars = []
+ 
+   for car_name in candidate_cars:
++    if car_name == "TOYOTA CAMRY HYBRID 2018": continue
+     car_fingerprints = _FINGERPRINTS[car_name]
+ 
+     for fingerprint in car_fingerprints:
+diff --git a/selfdrive/car/toyota/values.py b/selfdrive/car/toyota/values.py
+index 5c7c49a..5998ee2 100644
+--- a/selfdrive/car/toyota/values.py
++++ b/selfdrive/car/toyota/values.py
+@@ -240,6 +240,6 @@ DBC = {
+   CAR.LEXUS_CTH: dbc_dict('lexus_ct200h_2018_pt_generated', 'toyota_adas'),
+ }
+ 
+-NO_DSU_CAR = [CAR.CHR, CAR.CHRH, CAR.CAMRY, CAR.CAMRYH, CAR.RAV4_TSS2, CAR.COROLLA_TSS2, CAR.COROLLAH_TSS2, CAR.LEXUS_ES_TSS2, CAR.LEXUS_ESH_TSS2]
++NO_DSU_CAR = [CAR.CHR, CAR.CAMRY, CAR.CAMRYH, CAR.RAV4_TSS2, CAR.COROLLA_TSS2, CAR.COROLLAH_TSS2, CAR.LEXUS_ES_TSS2, CAR.LEXUS_ESH_TSS2]
+ TSS2_CAR = [CAR.RAV4_TSS2, CAR.COROLLA_TSS2, CAR.COROLLAH_TSS2, CAR.LEXUS_ES_TSS2, CAR.LEXUS_ESH_TSS2]
+ NO_STOP_TIMER_CAR = [CAR.RAV4H, CAR.HIGHLANDERH, CAR.HIGHLANDER, CAR.RAV4_TSS2, CAR.COROLLA_TSS2, CAR.COROLLAH_TSS2, CAR.LEXUS_ES_TSS2, CAR.LEXUS_ESH_TSS2, CAR.SIENNA]  # no resume button press required
+-- 
+2.17.1
+
