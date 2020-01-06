@@ -6,8 +6,7 @@ from opendbc.can.parser import CANParser
 from selfdrive.config import Conversions as CV
 from selfdrive.car.toyota.values import CAR, DBC, STEER_THRESHOLD, TSS2_CAR, NO_DSU_CAR
 
-NO_DSU_CAR = NO_DSU_CAR.copy()
-NO_DSU_CAR.remove(CAR.CHRH)
+NO_DSU_CAR = [car in NO_DSU_CAR if car!= CAR.CHRH]
 
 GearShifter = car.CarState.GearShifter
 
