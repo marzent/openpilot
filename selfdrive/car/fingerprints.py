@@ -45,6 +45,7 @@ def eliminate_incompatible_cars(msg, candidate_cars):
   compatible_cars = []
 
   for car_name in candidate_cars:
+    if car_name == "TOYOTA CAMRY HYBRID 2018": continue
     car_fingerprints = _FINGERPRINTS[car_name]
 
     for fingerprint in car_fingerprints:
