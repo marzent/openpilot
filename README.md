@@ -1,3 +1,22 @@
+This custom fork is based on comma's openpilot: https://github.com/commaai/openpilot, and contains fixed and tweaks for specifically the 2017-2019 Toyota C-HR Hybrid.
+It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
+
+Changes from stock:
+
+- <b> Fingerprint fix </b> - fixes the C-HR Hybrid misidentifying as a Camry and messing up its dbc addresses.
+
+- <b> Sensor data fix </b> - fixes the C-HR Hybrid from MY 2017-2019 being misidentified as having Toyota TSS-P 2.
+
+- <b> Enabled 0.7 Lane Change Assist </b>
+
+- <b> Gas pedal speed override </b> - Pressing the gas pedal will no longer disengage openpilot, but instead act as a manual gas override similar to stock Toyota ACC, which this still uses anyway. You can also resume from standstill by tapping the gas.
+
+- <b> Driver monitoring removed </b> - Removes driver monitoring and the need to touch the wheel. Please stay attentive and ready to take over at any time.
+
+
+
+
+
 [![](https://i.imgur.com/UetIFyH.jpg)](#)
 
 Table of Contents
